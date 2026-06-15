@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBS Nurture Sequence | Vinyl Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#ECE8E2; --teal-deep:#0D5A67; --teal:#006778; --teal-bright:#0097A7;
+  --teal-light:#80C6C6; --orange:#DC8044; --peach:#FFBA7B; --maroon:#803038; --white:#ffffff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif; color:var(--teal-deep); background:var(--cream);
+  font-size:17px; line-height:1.65; font-weight:300; -webkit-font-smoothing:antialiased;}
+body::before{content:''; position:fixed; top:-20%; right:-15%; width:70vw; height:70vw;
+  max-width:900px; max-height:900px;
+  background:radial-gradient(ellipse at center, rgba(220,128,68,0.25) 0%, rgba(255,186,123,0.18) 25%,
+    rgba(220,128,68,0.08) 50%, transparent 70%);
+  border-radius:50%; pointer-events:none; z-index:0; filter:blur(40px);}
+h2{font-family:'DM Sans',sans-serif; font-size:clamp(28px,3.5vw,38px); font-weight:400;
+  color:var(--teal-deep); letter-spacing:-0.5px; margin-bottom:20px; line-height:1.2;}
+h3{font-family:'DM Sans',sans-serif; font-size:20px; font-weight:500; color:var(--teal-deep);
+  margin-top:32px; margin-bottom:12px;}
+p{margin-bottom:18px;}
+a{color:var(--teal-bright); text-decoration:none; font-weight:400;}
+a:hover{text-decoration:underline;}
+
+/* layout */
+.page-header{position:relative; z-index:1; padding:48px 40px 0; text-align:center;}
+.vinyl-wordmark{margin-bottom:80px; line-height:0;}
+.vinyl-wordmark svg{height:28px; width:auto;}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace; font-weight:400; font-size:13px;
+  text-transform:uppercase; letter-spacing:2px; color:var(--orange); margin-bottom:20px;}
+.hero-title{font-family:'DM Sans',sans-serif; font-weight:400; font-size:clamp(36px,5.5vw,56px);
+  color:var(--teal-deep); letter-spacing:-1px; line-height:1.15; max-width:740px; margin:0 auto;}
+.hero-sub{font-family:'DM Sans',sans-serif; font-weight:300; font-size:clamp(17px,2.2vw,21px);
+  color:var(--teal-deep); max-width:620px; margin:28px auto 0; line-height:1.6; opacity:0.8;}
+.hero-meta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal);
+  letter-spacing:0.5px; margin-top:28px; opacity:0.7;}
+.container{position:relative; z-index:1; max-width:780px; margin:0 auto; padding:60px 40px 100px;}
+
+/* section labels */
+.section-label{font-family:'JetBrains Mono',monospace; font-weight:300; font-size:16px;
+  text-transform:uppercase; color:var(--teal-deep); margin-top:72px; margin-bottom:16px;
+  display:inline-block; border-bottom:2px solid var(--peach); padding-bottom:4px;}
+.section-label span{color:var(--peach);}
+.section-label:first-of-type{margin-top:0;}
+
+/* callouts */
+.callout{background:rgba(0,103,120,0.04); border-radius:12px; padding:24px 28px; margin:28px 0;}
+.callout p{margin-bottom:0; font-size:16px;}
+.callout strong{color:var(--teal-deep); font-weight:500;}
+.callout.win{border-left:3px solid var(--teal-bright); background:rgba(0,151,167,0.06);}
+
+/* tags */
+.tag{display:inline-block; font-size:11px; font-weight:500; font-family:'JetBrains Mono',monospace;
+  padding:3px 10px; border-radius:12px; letter-spacing:0.3px; text-transform:uppercase; white-space:nowrap;}
+.tag.green{background:rgba(0,151,167,0.1); color:var(--teal-bright);}
+.tag.peach{background:rgba(220,128,68,0.12); color:var(--orange);}
+
+/* welcome email anatomy */
+.step-grid{display:grid; gap:16px; margin:28px 0;}
+.step-card{background:var(--white); border-radius:14px; padding:24px 28px;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04); display:flex; gap:18px; align-items:flex-start;}
+.step-number{flex:none; display:inline-flex; align-items:center; justify-content:center;
+  width:38px; height:38px; border-radius:50%; border:1.5px solid var(--teal-deep);
+  font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:400; color:var(--teal-deep);}
+.step-body h4{font-family:'DM Sans',sans-serif; font-size:17px; font-weight:500; color:var(--teal-deep); margin-bottom:5px;}
+.step-body p{margin:0; font-size:15px; opacity:0.85;}
+
+/* track + journey */
+.track{background:var(--white); border-radius:16px; padding:30px 34px; margin:24px 0;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04); border-left:4px solid var(--peach);}
+.track.b{border-left-color:var(--teal-bright);} .track.c{border-left-color:var(--teal);}
+.track h3{margin-top:0; margin-bottom:6px;}
+.track .summary{font-family:'JetBrains Mono',monospace; font-size:12px; text-transform:uppercase;
+  letter-spacing:0.4px; color:var(--teal); opacity:0.85; margin-bottom:6px; line-height:1.7;}
+.track .summary b{color:var(--teal-deep); font-weight:500;}
+.journey{position:relative; margin:22px 0 4px; padding-left:30px;}
+.journey::before{content:''; position:absolute; left:6px; top:8px; bottom:8px; width:2px; background:var(--peach);}
+.journey.b::before{background:var(--teal-bright);}
+.journey.c::before{background:var(--teal);}
+.j-step{position:relative; margin-bottom:20px;}
+.j-step:last-child{margin-bottom:0;}
+.j-step::before{content:''; position:absolute; left:-30px; top:2px; width:15px; height:15px;
+  border-radius:50%; background:var(--white); border:2.5px solid var(--peach);}
+.journey.b .j-step::before{border-color:var(--teal-bright);}
+.journey.c .j-step::before{border-color:var(--teal);}
+.j-step.end::before{background:var(--orange); border-color:var(--orange);}
+.j-when{font-family:'JetBrains Mono',monospace; font-size:10.5px; text-transform:uppercase;
+  letter-spacing:0.5px; color:var(--teal-bright); margin-bottom:3px;}
+.j-title{font-family:'DM Sans',sans-serif; font-size:16px; font-weight:600; color:var(--teal-deep);}
+.j-action{font-size:14.5px; opacity:0.85; margin-top:2px;}
+.j-mind{font-size:14px; font-style:italic; color:var(--teal-bright); margin-top:5px;}
+.j-mind::before{content:'\201C';} .j-mind::after{content:'\201D';}
+
+/* legend */
+.legend{display:flex; flex-wrap:wrap; gap:18px; margin:8px 0 4px; font-family:'JetBrains Mono',monospace;
+  font-size:12px; text-transform:uppercase; letter-spacing:0.4px; color:var(--teal-deep);}
+.legend span{display:inline-flex; align-items:center; gap:7px;}
+.legend i{width:12px; height:12px; border-radius:50%; display:inline-block;}
+.legend .ia{background:var(--peach);} .legend .ib{background:var(--teal-bright);} .legend .ic{background:var(--teal);}
+
+/* cta link */
+.cta-link{display:inline-flex; align-items:center; gap:10px; font-family:'JetBrains Mono',monospace;
+  font-weight:400; font-size:14px; text-transform:uppercase; color:var(--peach); text-decoration:none;
+  border-top:1.5px solid var(--peach); padding-top:12px; margin-top:8px; transition:color .2s;}
+.cta-link:hover{color:var(--orange); text-decoration:none;}
+.cta-link::before{content:'\2192  ';}
+
+/* footer */
+.footer-bar{background:var(--teal); padding:40px; margin-top:80px; position:relative; z-index:1;}
+.footer-inner{max-width:780px; margin:0 auto; display:flex; justify-content:space-between;
+  align-items:center; flex-wrap:wrap; gap:12px;}
+.footer-wordmark{line-height:0;} .footer-wordmark svg{height:24px; width:auto;}
+.footer-meta{font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:300; color:var(--teal-light); letter-spacing:0.5px;}
+
+@media (max-width:600px){
+  .page-header,.container{padding-left:24px; padding-right:24px;}
+  .footer-bar{padding:32px 24px;} .step-card,.track{padding:24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="vinyl-wordmark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 346" fill="none"><path d="M67.2911 5.50427L153.389 200.364C156.561 207.564 166.839 207.505 169.951 200.306L253.818 5.56281C255.227 2.22637 258.516 0.119141 262.099 0.119141H311.726C318.245 0.119141 322.591 6.79204 320.007 12.704L176.588 340.495C175.178 343.773 171.889 345.88 168.307 345.88H157.031C153.448 345.88 150.277 343.773 148.808 340.554L0.808551 12.821C-1.89304 6.85055 2.51172 0.119141 9.03077 0.119141H59.0101C62.5926 0.119141 65.8228 2.22636 67.2911 5.50427Z" fill="#0D5A67"/><path d="M449.203 9.12949V332.53C449.203 337.506 445.151 341.545 440.159 341.545H392.059C387.067 341.545 383.014 337.506 383.014 332.53V9.12949C383.014 4.15409 387.067 0.115234 392.059 0.115234H440.159C445.151 0.115234 449.203 4.15409 449.203 9.12949Z" fill="#0D5A67"/><path d="M589.735 3.27794L774.617 219.737C780.079 226.117 790.533 222.254 790.533 213.884V9.07281C790.533 4.09741 794.585 0.0585466 799.577 0.0585466H846.209C851.201 0.0585466 855.254 4.09741 855.254 9.07281V332.474C855.254 337.449 851.201 341.488 846.209 341.488H802.573C799.93 341.488 797.404 340.317 795.643 338.269L609.527 118.122C604.124 111.683 593.552 115.546 593.552 123.917V332.415C593.552 337.391 589.5 341.43 584.508 341.43H537.876C532.884 341.43 528.832 337.391 528.832 332.415V9.01426C528.832 4.03886 532.884 0 537.876 0H582.805C585.447 0 587.973 1.17069 589.676 3.16085L589.735 3.27794Z" fill="#0D5A67"/><path d="M990.851 3.80473L1063.74 104.191C1067.32 109.166 1074.72 109.166 1078.36 104.191L1152.18 3.74618C1153.89 1.40482 1156.59 0.0585466 1159.47 0.0585466H1215.55C1223.01 0.0585466 1227.24 8.54599 1222.78 14.4579L1105.96 169.925C1104.79 171.505 1104.14 173.378 1104.14 175.31V332.415C1104.14 337.391 1100.09 341.43 1095.1 341.43H1047C1042.01 341.43 1037.95 337.391 1037.95 332.415V174.841C1037.95 172.91 1037.31 170.978 1036.13 169.398L918.672 14.4579C914.15 8.54599 918.437 0 925.896 0H983.569C986.447 0 989.207 1.40482 990.91 3.74618L990.851 3.80473Z" fill="#0D5A67"/><path d="M1353.74 9.12949V280.962C1353.74 285.937 1357.79 289.976 1362.78 289.976H1510.96C1515.95 289.976 1520 294.015 1520 298.99V332.53C1520 337.506 1515.95 341.545 1510.96 341.545H1296.59C1291.6 341.545 1287.55 337.506 1287.55 332.53V9.12949C1287.55 4.15409 1291.6 0.115234 1296.59 0.115234H1344.69C1349.68 0.115234 1353.74 4.15409 1353.74 9.12949Z" fill="#0D5A67"/></svg></div>
+  <div class="hero-eyebrow">CBS Nurture Sequence</div>
+  <h1 class="hero-title">What happens after someone gives us an email</h1>
+  <p class="hero-sub">Three automated email tracks that keep CBS in front of an interested buyer and turn quiet contacts into consult requests. This is the sequence, start to handoff.</p>
+  <div class="hero-meta">JUNE 15, 2026 &nbsp;&middot;&nbsp; PREPARED BY JOSH AGEE, VINYL MARKETING</div>
+</div>
+
+<div class="container">
+
+  <!-- intro -->
+  <div class="section-label"><span>&middot;</span> The idea</div>
+  <h2>Lead with value. Earn the conversation.</h2>
+  <p>A contact gives us an email, and today nothing happens. The nurture sequence fixes that: every email delivers something useful first, builds credibility over a few sends, then makes a low-pressure ask. No hard selling, no "you are subscribed" receipts.</p>
+  <p>A contact leaves a track and routes to sales the moment they raise a real hand, by requesting a consult or submitting the Contact Us form. They should never get a generic nurture email after that.</p>
+  <div class="callout win">
+    <p><strong>Priority and fastest win:</strong> the Track A welcome email. A signup currently lands on the homepage with no response. The welcome email is the first thing to build.</p>
+  </div>
+
+  <!-- welcome email anatomy -->
+  <div class="section-label"><span>01</span> The Welcome Email</div>
+  <h2>The first send, built right.</h2>
+  <p>CBS runs one catch-all newsletter, so the welcome email speaks to everyone without diluting value. A scannable, sectioned layout lets each reader self-select their lane. The more specific the label, the higher the value: "operational excellence" is a weak signal, "aerospace and defense compliance" is a strong one.</p>
+  <div class="step-grid">
+    <div class="step-card"><span class="step-number">01</span><div class="step-body"><h4>Warm, short open</h4><p>One or two lines. Confirm they are in, then pivot straight to value.</p></div></div>
+    <div class="step-card"><span class="step-number">02</span><div class="step-body"><h4>Three labeled value blocks</h4><p>One per vertical: <span class="tag peach">Private Equity</span> <span class="tag peach">Aerospace &amp; Defense</span> <span class="tag peach">Lean &amp; Op-Ex</span>. Each links two or three of the strongest CBS resources for that reader.</p></div></div>
+    <div class="step-card"><span class="step-number">03</span><div class="step-body"><h4>One primary next step</h4><p>A soft consult offer: 15 minutes with an operator to talk through their situation, framed as help, not a demo.</p></div></div>
+    <div class="step-card"><span class="step-number">04</span><div class="step-body"><h4>Footer</h4><p>Who CBS is in one line, plus an honest unsubscribe.</p></div></div>
+  </div>
+
+  <!-- tracks -->
+  <div class="section-label"><span>02</span> The Three Tracks</div>
+  <h2>Each map follows one contact, entry to handoff.</h2>
+  <p>Every stage shows the timing, what we send, and the mindset it creates. The orange node is where the contact converts and routes to sales.</p>
+  <div class="legend">
+    <span><i class="ia"></i> Track A &middot; Newsletter</span>
+    <span><i class="ib"></i> Track B &middot; Lead magnet</span>
+    <span><i class="ic"></i> Track C &middot; Re-engagement</span>
+  </div>
+
+  <div class="track a">
+    <h3>Track A &middot; Newsletter value nurture</h3>
+    <div class="summary"><b>Trigger:</b> newsletter signup &nbsp;&middot;&nbsp; <b>Cadence:</b> 5 sends / ~18 days &nbsp;&middot;&nbsp; <b>Goal:</b> earn a consult</div>
+    <div class="journey a">
+      <div class="j-step"><div class="j-when">Day 0 &middot; Subscribe</div><div class="j-title">Joins the newsletter</div><div class="j-action">Submits the form from a blog or the homepage.</div><div class="j-mind">I am curious about CBS, but not ready to talk.</div></div>
+      <div class="j-step"><div class="j-when">Day 0 &middot; Welcome email</div><div class="j-title">Value, not a receipt</div><div class="j-action">Three labeled vertical blocks plus a soft consult offer. They self-select their lane.</div><div class="j-mind">That aerospace block is exactly my problem.</div></div>
+      <div class="j-step"><div class="j-when">Day 3 &middot; Point of view</div><div class="j-title">Name the problem</div><div class="j-action">One sharp CBS perspective: a problem leaders recognize, and what good looks like.</div><div class="j-mind">These people understand my world.</div></div>
+      <div class="j-step"><div class="j-when">Day 7 &middot; Proof</div><div class="j-title">Show the result</div><div class="j-action">An anonymized, operationally specific example of CBS work and its outcome.</div><div class="j-mind">They have actually done this before.</div></div>
+      <div class="j-step"><div class="j-when">Day 12 &middot; Resource</div><div class="j-title">Hand over a tool</div><div class="j-action">The most relevant gated asset for their likely vertical. A download here passes them into Track B.</div><div class="j-mind">Useful. I will grab this.</div></div>
+      <div class="j-step end"><div class="j-when">Day 18 &middot; Invitation &rarr; Lead</div><div class="j-title">Ask for the conversation</div><div class="j-action">Direct, low-pressure consult invite. Routes to sales on acceptance.</div><div class="j-mind">Worth a 15-minute call.</div></div>
+    </div>
+  </div>
+
+  <div class="track b">
+    <h3>Track B &middot; Lead-magnet nurture</h3>
+    <div class="summary"><b>Trigger:</b> gated download &nbsp;&middot;&nbsp; <b>Cadence:</b> instant + 3 sends / ~8 days &nbsp;&middot;&nbsp; <b>Goal:</b> turn a problem into a call</div>
+    <div class="journey b">
+      <div class="j-step"><div class="j-when">Day 0 &middot; Download</div><div class="j-title">Grabs the magnet</div><div class="j-action">Trades an email for the AS9100 checklist (or the PE / Op-Ex asset).</div><div class="j-mind">I have a specific problem right now.</div></div>
+      <div class="j-step"><div class="j-when">Day 0 &middot; Delivery</div><div class="j-title">Instant value</div><div class="j-action">The asset arrives immediately, paired with a soft expert offer.</div><div class="j-mind">Fast. They clearly know this stuff.</div></div>
+      <div class="j-step"><div class="j-when">Day 2 &middot; Go deeper</div><div class="j-title">The gaps behind the checklist</div><div class="j-action">A short send on the common mistakes the checklist surfaces.</div><div class="j-mind">I did not realize that gap applied to us.</div></div>
+      <div class="j-step"><div class="j-when">Day 5 &middot; What good looks like</div><div class="j-title">How CBS closes it</div><div class="j-action">The path from gap to ready, with brief proof.</div><div class="j-mind">This is bigger than I can do alone.</div></div>
+      <div class="j-step end"><div class="j-when">Day 8 &middot; Consult offer &rarr; MQL</div><div class="j-title">Spend 15 minutes with us</div><div class="j-action">Operator-to-operator consult offer. Routes to sales on acceptance.</div><div class="j-mind">I should just call these people.</div></div>
+    </div>
+  </div>
+
+  <div class="track c">
+    <h3>Track C &middot; Re-engagement and retargeting</h3>
+    <div class="summary"><b>Trigger:</b> engaged, did not convert, or went cold &nbsp;&middot;&nbsp; <b>Goal:</b> back to a capture point</div>
+    <div class="journey c">
+      <div class="j-step"><div class="j-when">Trigger</div><div class="j-title">Reads, then leaves</div><div class="j-action">Engages with content but does not submit, or a contact goes quiet.</div><div class="j-mind">Interesting, but not right now.</div></div>
+      <div class="j-step"><div class="j-when">Days 1-30 &middot; Retargeting</div><div class="j-title">Stay in view</div><div class="j-action">Retargeting ads follow them with the most relevant vertical offer.</div><div class="j-mind">I keep seeing CBS around.</div></div>
+      <div class="j-step"><div class="j-when">On return</div><div class="j-title">A clear way in</div><div class="j-action">In-article and end-of-blog CTAs give an obvious next step, not just a note at the bottom.</div><div class="j-mind">There is an easy way to start here.</div></div>
+      <div class="j-step"><div class="j-when">Periodic</div><div class="j-title">Re-engagement email</div><div class="j-action">A light nudge with fresh value to cold contacts.</div><div class="j-mind">Maybe now is the time.</div></div>
+      <div class="j-step end"><div class="j-when">Re-enter &rarr; Track A or B</div><div class="j-title">Back into nurture</div><div class="j-action">Lands on a capture point and rejoins the right track.</div><div class="j-mind">Okay, I am in.</div></div>
+    </div>
+  </div>
+
+  <a class="cta-link" href="https://app.clickup.com/t/86ahjvfnt" target="_blank">View the ClickUp task</a>
+
+</div>
+
+<div class="footer-bar">
+  <div class="footer-inner">
+    <div class="footer-wordmark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 346" fill="none"><path d="M67.2911 5.50427L153.389 200.364C156.561 207.564 166.839 207.505 169.951 200.306L253.818 5.56281C255.227 2.22637 258.516 0.119141 262.099 0.119141H311.726C318.245 0.119141 322.591 6.79204 320.007 12.704L176.588 340.495C175.178 343.773 171.889 345.88 168.307 345.88H157.031C153.448 345.88 150.277 343.773 148.808 340.554L0.808551 12.821C-1.89304 6.85055 2.51172 0.119141 9.03077 0.119141H59.0101C62.5926 0.119141 65.8228 2.22636 67.2911 5.50427Z" fill="#ECE8E2"/><path d="M449.203 9.12949V332.53C449.203 337.506 445.151 341.545 440.159 341.545H392.059C387.067 341.545 383.014 337.506 383.014 332.53V9.12949C383.014 4.15409 387.067 0.115234 392.059 0.115234H440.159C445.151 0.115234 449.203 4.15409 449.203 9.12949Z" fill="#ECE8E2"/><path d="M589.735 3.27794L774.617 219.737C780.079 226.117 790.533 222.254 790.533 213.884V9.07281C790.533 4.09741 794.585 0.0585466 799.577 0.0585466H846.209C851.201 0.0585466 855.254 4.09741 855.254 9.07281V332.474C855.254 337.449 851.201 341.488 846.209 341.488H802.573C799.93 341.488 797.404 340.317 795.643 338.269L609.527 118.122C604.124 111.683 593.552 115.546 593.552 123.917V332.415C593.552 337.391 589.5 341.43 584.508 341.43H537.876C532.884 341.43 528.832 337.391 528.832 332.415V9.01426C528.832 4.03886 532.884 0 537.876 0H582.805C585.447 0 587.973 1.17069 589.676 3.16085L589.735 3.27794Z" fill="#ECE8E2"/><path d="M990.851 3.80473L1063.74 104.191C1067.32 109.166 1074.72 109.166 1078.36 104.191L1152.18 3.74618C1153.89 1.40482 1156.59 0.0585466 1159.47 0.0585466H1215.55C1223.01 0.0585466 1227.24 8.54599 1222.78 14.4579L1105.96 169.925C1104.79 171.505 1104.14 173.378 1104.14 175.31V332.415C1104.14 337.391 1100.09 341.43 1095.1 341.43H1047C1042.01 341.43 1037.95 337.391 1037.95 332.415V174.841C1037.95 172.91 1037.31 170.978 1036.13 169.398L918.672 14.4579C914.15 8.54599 918.437 0 925.896 0H983.569C986.447 0 989.207 1.40482 990.91 3.74618L990.851 3.80473Z" fill="#ECE8E2"/><path d="M1353.74 9.12949V280.962C1353.74 285.937 1357.79 289.976 1362.78 289.976H1510.96C1515.95 289.976 1520 294.015 1520 298.99V332.53C1520 337.506 1515.95 341.545 1510.96 341.545H1296.59C1291.6 341.545 1287.55 337.506 1287.55 332.53V9.12949C1287.55 4.15409 1291.6 0.115234 1296.59 0.115234H1344.69C1349.68 0.115234 1353.74 4.15409 1353.74 9.12949Z" fill="#ECE8E2"/></svg></div>
+    <div class="footer-meta">JUNE 15, 2026 &middot; CBS NURTURE SEQUENCE</div>
+  </div>
+</div>
+
+</body>
+</html>
