@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBS Nurture Email Copy | Vinyl Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#ECE8E2; --teal-deep:#0D5A67; --teal:#006778; --teal-bright:#0097A7;
+  --teal-light:#80C6C6; --orange:#DC8044; --peach:#FFBA7B; --maroon:#803038; --white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif; color:var(--teal-deep); background:var(--cream);
+  font-size:17px; line-height:1.6; font-weight:300; -webkit-font-smoothing:antialiased;}
+body::before{content:''; position:fixed; top:-20%; right:-15%; width:70vw; height:70vw;
+  max-width:900px; max-height:900px;
+  background:radial-gradient(ellipse at center, rgba(220,128,68,0.25) 0%, rgba(255,186,123,0.18) 25%,
+    rgba(220,128,68,0.08) 50%, transparent 70%);
+  border-radius:50%; pointer-events:none; z-index:0; filter:blur(40px);}
+
+.page-header{position:relative; z-index:1; padding:48px 40px 0; text-align:center;}
+.vinyl-wordmark{margin-bottom:72px; line-height:0;}
+.vinyl-wordmark svg{height:26px; width:auto;}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace; font-size:13px; text-transform:uppercase;
+  letter-spacing:2px; color:var(--orange); margin-bottom:18px;}
+.hero-title{font-weight:400; font-size:clamp(34px,5vw,50px); letter-spacing:-1px; line-height:1.15; max-width:720px; margin:0 auto;}
+.hero-sub{font-weight:300; font-size:clamp(16px,2vw,20px); max-width:600px; margin:24px auto 0; line-height:1.6; opacity:0.8;}
+.hero-meta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); letter-spacing:0.5px; margin-top:24px; opacity:0.7;}
+.container{position:relative; z-index:1; max-width:760px; margin:0 auto; padding:54px 40px 100px;}
+
+.usage{background:rgba(0,103,120,0.04); border-left:3px solid var(--teal-bright); border-radius:12px; padding:22px 26px; margin-bottom:24px;}
+.usage h4{font-family:'JetBrains Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:var(--teal); margin-bottom:10px;}
+.usage ol{margin:0 0 0 20px; font-size:15px;} .usage li{margin-bottom:7px; opacity:0.88;}
+
+.quick-nav{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 8px;}
+.quick-nav a{font-family:'JetBrains Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.5px;
+  color:var(--teal-deep); text-decoration:none; padding:6px 14px; border-radius:8px; background:rgba(0,103,120,0.06); transition:.2s;}
+.quick-nav a:hover{background:var(--teal); color:var(--cream);}
+
+.track-label{font-family:'JetBrains Mono',monospace; font-weight:300; font-size:15px; text-transform:uppercase;
+  color:var(--teal-deep); margin-top:64px; margin-bottom:6px; display:inline-block; border-bottom:2px solid var(--peach); padding-bottom:4px;}
+.track-label span{color:var(--peach);}
+.track-meta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal); opacity:0.8; margin-bottom:8px; letter-spacing:0.3px;}
+
+.email{background:var(--white); border-radius:16px; padding:28px 32px; margin:20px 0; box-shadow:0 2px 12px rgba(0,0,0,0.05); border-left:4px solid var(--peach);}
+.email.b{border-left-color:var(--teal-bright);} .email.c{border-left-color:var(--teal);}
+.email-head{display:flex; align-items:baseline; gap:12px; margin-bottom:4px;}
+.enum{font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; color:var(--white);
+  background:var(--teal-deep); border-radius:7px; padding:3px 9px; flex:none;}
+.email.b .enum{background:var(--teal-bright);} .email.c .enum{background:var(--teal);}
+.email-head h3{font-family:'DM Sans',sans-serif; font-size:19px; font-weight:600; color:var(--teal-deep);}
+.goal{font-size:14px; font-style:italic; color:var(--teal); opacity:0.85; margin-bottom:14px;}
+.flabel{font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.6px; color:var(--orange); display:block; margin:16px 0 6px;}
+.opts{margin:0 0 2px 20px; font-size:15px;} .opts li{margin-bottom:3px;}
+.body-copy p{font-size:15.5px; margin-bottom:11px; line-height:1.6;}
+.body-copy p:last-child{margin-bottom:0;}
+.vert{font-weight:600; color:var(--teal-deep); margin-top:6px;}
+.lines{font-size:14.5px; opacity:0.9; margin:2px 0 8px;}
+.btn{display:inline-block; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:500; letter-spacing:0.3px;
+  color:var(--teal-deep); background:rgba(220,128,68,0.14); border:1px dashed var(--orange); border-radius:8px; padding:7px 14px; margin-top:14px;}
+.note{font-size:13.5px; font-style:italic; color:#777; border-left:3px solid #ddd; padding:6px 0 6px 12px; margin-top:16px;}
+.note b{font-style:italic;}
+
+.footer-bar{background:var(--teal); padding:36px 40px; margin-top:72px; position:relative; z-index:1;}
+.footer-inner{max-width:760px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+.footer-wordmark{line-height:0;} .footer-wordmark svg{height:22px; width:auto;}
+.footer-meta{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--teal-light); letter-spacing:0.5px;}
+
+@media (max-width:600px){
+  .page-header,.container{padding-left:22px; padding-right:22px;}
+  .email{padding:22px;} .footer-bar{padding:28px 22px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="vinyl-wordmark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 346" fill="none"><path d="M67.2911 5.50427L153.389 200.364C156.561 207.564 166.839 207.505 169.951 200.306L253.818 5.56281C255.227 2.22637 258.516 0.119141 262.099 0.119141H311.726C318.245 0.119141 322.591 6.79204 320.007 12.704L176.588 340.495C175.178 343.773 171.889 345.88 168.307 345.88H157.031C153.448 345.88 150.277 343.773 148.808 340.554L0.808551 12.821C-1.89304 6.85055 2.51172 0.119141 9.03077 0.119141H59.0101C62.5926 0.119141 65.8228 2.22636 67.2911 5.50427Z" fill="#0D5A67"/><path d="M449.203 9.12949V332.53C449.203 337.506 445.151 341.545 440.159 341.545H392.059C387.067 341.545 383.014 337.506 383.014 332.53V9.12949C383.014 4.15409 387.067 0.115234 392.059 0.115234H440.159C445.151 0.115234 449.203 4.15409 449.203 9.12949Z" fill="#0D5A67"/><path d="M589.735 3.27794L774.617 219.737C780.079 226.117 790.533 222.254 790.533 213.884V9.07281C790.533 4.09741 794.585 0.0585466 799.577 0.0585466H846.209C851.201 0.0585466 855.254 4.09741 855.254 9.07281V332.474C855.254 337.449 851.201 341.488 846.209 341.488H802.573C799.93 341.488 797.404 340.317 795.643 338.269L609.527 118.122C604.124 111.683 593.552 115.546 593.552 123.917V332.415C593.552 337.391 589.5 341.43 584.508 341.43H537.876C532.884 341.43 528.832 337.391 528.832 332.415V9.01426C528.832 4.03886 532.884 0 537.876 0H582.805C585.447 0 587.973 1.17069 589.676 3.16085L589.735 3.27794Z" fill="#0D5A67"/><path d="M990.851 3.80473L1063.74 104.191C1067.32 109.166 1074.72 109.166 1078.36 104.191L1152.18 3.74618C1153.89 1.40482 1156.59 0.0585466 1159.47 0.0585466H1215.55C1223.01 0.0585466 1227.24 8.54599 1222.78 14.4579L1105.96 169.925C1104.79 171.505 1104.14 173.378 1104.14 175.31V332.415C1104.14 337.391 1100.09 341.43 1095.1 341.43H1047C1042.01 341.43 1037.95 337.391 1037.95 332.415V174.841C1037.95 172.91 1037.31 170.978 1036.13 169.398L918.672 14.4579C914.15 8.54599 918.437 0 925.896 0H983.569C986.447 0 989.207 1.40482 990.91 3.74618L990.851 3.80473Z" fill="#0D5A67"/><path d="M1353.74 9.12949V280.962C1353.74 285.937 1357.79 289.976 1362.78 289.976H1510.96C1515.95 289.976 1520 294.015 1520 298.99V332.53C1520 337.506 1515.95 341.545 1510.96 341.545H1296.59C1291.6 341.545 1287.55 337.506 1287.55 332.53V9.12949C1287.55 4.15409 1291.6 0.115234 1296.59 0.115234H1344.69C1349.68 0.115234 1353.74 4.15409 1353.74 9.12949Z" fill="#0D5A67"/></svg></div>
+  <div class="hero-eyebrow">CBS Nurture Sequence</div>
+  <h1 class="hero-title">Email copy, all three tracks</h1>
+  <p class="hero-sub">Ready-to-load drafts for HubSpot. Subject options, preview options, body, and button for every email.</p>
+  <div class="hero-meta">JUNE 15, 2026 &nbsp;&middot;&nbsp; PREPARED BY JOSH AGEE, VINYL MARKETING</div>
+</div>
+
+<div class="container">
+
+  <div class="usage">
+    <h4>Before sending</h4>
+    <ol>
+      <li>Swap the bracketed [article] and [link] placeholders for real CBS pages.</li>
+      <li>Replace the proof story in Track A, Email 3 with a verified, client-approved example. Do not send the placeholder as a real client.</li>
+      <li>The welcome email is intentionally simple and ask-free. The selling builds later in the sequence.</li>
+    </ol>
+  </div>
+
+  <nav class="quick-nav">
+    <a href="#track-a">Track A &middot; Newsletter</a>
+    <a href="#track-b">Track B &middot; Lead magnet</a>
+    <a href="#track-c">Track C &middot; Re-engagement</a>
+  </nav>
+
+  <!-- ================= TRACK A ================= -->
+  <div id="track-a" class="track-label"><span>Track A</span> Newsletter value nurture</div>
+  <div class="track-meta">Trigger: newsletter signup &middot; 5 sends over ~18 days &middot; Goal: deliver value, then earn a consult</div>
+
+  <div class="email a">
+    <div class="email-head"><span class="enum">A1</span><h3>Welcome (Day 0, immediate)</h3></div>
+    <div class="goal">Goal: confirm the signup and give them something to read. No ask.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>Thanks for signing up</li><li>Welcome to the CBS newsletter</li><li>You are on the list</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>A few articles to start with.</li><li>Some reading worth your time.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Thanks for signing up for the CBS newsletter. Here are a few articles you might find interesting, grouped by where you spend your time:</p>
+      <p class="vert">Private equity</p>
+      <p class="lines">[Article: the first 90 days that decide a portfolio company's operational value] [link]<br>[Article: making operational gains stick without burning out the management team] [link]</p>
+      <p class="vert">Aerospace and defense</p>
+      <p class="lines">[Article: the AS9100 gaps that pass internal review and fail the audit] [link]<br>[Article: meeting rising demand without adding people or floor space] [link]</p>
+      <p class="vert">Operations and continuous improvement</p>
+      <p class="lines">[Article: where most plants quietly leak time and margin] [link]<br>[Article: the first three moves in an operational excellence push] [link]</p>
+      <p>We send practical pieces on running a better operation, usually a couple times a month. If one is ever not useful, you can unsubscribe in a click.</p>
+      <p>The CBS team</p>
+    </div>
+    <div class="note"><b>Note:</b> Keep this ask-free. No consult button here. Pull the six articles from the strongest existing CBS pieces for each vertical.</div>
+  </div>
+
+  <div class="email a">
+    <div class="email-head"><span class="enum">A2</span><h3>Point of view (Day 3)</h3></div>
+    <div class="goal">Goal: earn attention with one specific, useful insight. Still no hard ask.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>The 15 feet nobody owns</li><li>Your bottleneck probably is not a machine</li><li>Where the week actually goes</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>One thing we see in almost every plant.</li><li>It is rarely where you would look first.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Walk almost any plant and the real delay is not inside a single step. It is in the handoff between two of them. The 15 feet and 15 minutes where a job sits, nobody owns it, and it never shows up on a report.</p>
+      <p>We see it constantly. A team is sure the constraint is a machine or a headcount problem, so they go buy capacity they already have. The actual fix is deciding who owns the gap between two steps, and measuring the wait there like it matters.</p>
+      <p>Put a name on that handoff. Make the wait visible. That is usually worth more than the next capital request, and it costs nothing.</p>
+      <p>Reply and tell us where your work piles up. We read every one.</p>
+    </div>
+    <span class="btn">[Read: where operations quietly lose time]</span>
+  </div>
+
+  <div class="email a">
+    <div class="email-head"><span class="enum">A3</span><h3>Proof (Day 7)</h3></div>
+    <div class="goal">Goal: make it real with a specific, anonymized result. First soft ask.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>Same people, a week of capacity back</li><li>We did not add anyone</li><li>The fix was free</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>What it looked like on the floor.</li><li>No new hires, no new machines.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Here is what that looks like in practice.</p>
+      <p>A manufacturer came to us with on-time delivery under 80 percent and a team already on overtime. The obvious move was to add people. We did not.</p>
+      <p>A week on the floor showed most of the delay was sitting between two handoffs, not inside any step. We changed who owned that handoff and made the wait visible to everyone on it. On-time delivery was back above 95 percent within a quarter, same headcount.</p>
+      <p>The point is not the number. It is that the problem was in a place nobody was looking, because nobody owned it.</p>
+      <p>If that sounds like your operation, it is worth a conversation.</p>
+    </div>
+    <span class="btn">[Book 15 minutes]</span>
+    <div class="note"><b>Note:</b> Replace this story with a verified, client-approved example. Keep the structure: situation, what CBS did, measurable result. Do not present the placeholder as a real client.</div>
+  </div>
+
+  <div class="email a">
+    <div class="email-head"><span class="enum">A4</span><h3>Resource (Day 12)</h3></div>
+    <div class="goal">Goal: capture deeper intent with a tool. A download moves the contact into Track B.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>A checklist worth keeping</li><li>The AS9100 gaps that fail audits</li><li>Steal our checklist</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>Free, no call required.</li><li>The same one we use with clients.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>We built a few tools you can use today, no call required. Grab whichever fits:</p>
+      <p class="lines">[link] Aerospace and defense: the AS9100 readiness checklist, including the gaps that pass internal review and fail the audit<br>[link] Private equity: the operational due-diligence and first-90-days checklist<br>[link] Operations: a 10-minute self-assessment on where your operation leaks time and margin</p>
+      <p>Each one is the same checklist we would walk through with a client. Use it. If what it surfaces worries you, you know where we are.</p>
+    </div>
+    <span class="btn">[Get the checklist]</span>
+    <div class="note"><b>Note:</b> Until the PE and Op-Ex magnets exist, lead with the AS9100 checklist and remove the other two links.</div>
+  </div>
+
+  <div class="email a">
+    <div class="email-head"><span class="enum">A5</span><h3>Invitation (Day 18)</h3></div>
+    <div class="goal">Goal: convert to a consult. Direct, low pressure. Routes to sales on acceptance.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>15 minutes, no pitch</li><li>Bring your worst bottleneck</li><li>A straight read on your operation</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>We will tell you where to start.</li><li>Honest answer, no obligation.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Over the last couple of weeks we have shared how we think and what it looks like when it works. Simplest next step:</p>
+      <p>Take 15 minutes with one of our operators. Bring the operational problem bugging you most. You will get our honest read on where the opportunity is and what we would do first. If it turns into work together, good. If not, you leave with a clearer picture. No pitch either way.</p>
+    </div>
+    <span class="btn">[Book 15 minutes]</span>
+    <div class="note"><b>Note:</b> On booking or any consult request, the contact exits Track A and routes to sales as an MQL.</div>
+  </div>
+
+  <!-- ================= TRACK B ================= -->
+  <div id="track-b" class="track-label"><span>Track B</span> Lead-magnet nurture</div>
+  <div class="track-meta">Trigger: gated download &middot; instant + 3 sends over ~8 days &middot; Goal: turn a problem into a call. Written for the AS9100 checklist.</div>
+
+  <div class="email b">
+    <div class="email-head"><span class="enum">B1</span><h3>Delivery (Day 0, immediate)</h3></div>
+    <div class="goal">Goal: deliver the asset fast and frame how to use it.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>Your AS9100 readiness checklist</li><li>Here is your checklist</li><li>The checklist, and how to use it</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>Start with what you cannot check off.</li><li>The boxes you skip are the point.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Here is the AS9100 readiness checklist you asked for.</p>
+      <p><span class="btn">[Download the checklist]</span></p>
+      <p>Quick tip: do not just tick boxes. The value is in the items you cannot confidently check. Those are your real gaps, and they are the ones that surface in an audit, not before.</p>
+      <p>We help aerospace and defense teams close exactly these without grinding production to a halt. Hit something you are not sure about? Reply to this email. A real person reads it.</p>
+    </div>
+  </div>
+
+  <div class="email b">
+    <div class="email-head"><span class="enum">B2</span><h3>Go deeper (Day 2)</h3></div>
+    <div class="goal">Goal: deepen the problem the checklist surfaced.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>The gaps that pass internal review and fail the audit</li><li>It is rarely the paperwork</li><li>Where AS9100 actually breaks</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>Three gaps auditors find fast.</li><li>Look at the boxes you skipped.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Now that you have the checklist, here is what trips teams up most. It is rarely the documentation. It is whether the documented process is the one actually running on the floor.</p>
+      <p>Three gaps show up again and again:</p>
+      <p class="lines">Process control that lives on paper but not in practice.<br>Corrective actions that close without fixing the root cause.<br>A supply chain held to a looser standard than your own floor.</p>
+      <p>Auditors find these fast, because the evidence does not match the day to day. Run back through your checklist with that lens. The items you hesitated on are probably one of these three.</p>
+    </div>
+    <span class="btn">[Read: the three AS9100 gaps]</span>
+  </div>
+
+  <div class="email b">
+    <div class="email-head"><span class="enum">B3</span><h3>What good looks like (Day 5)</h3></div>
+    <div class="goal">Goal: show the path from gap to ready, with brief proof.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>Nothing to hide on audit week</li><li>From scramble to ready</li><li>The teams that pass without panic</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>Without stopping production to do it.</li><li>Readiness that holds when you are busy.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Knowing the gaps is one thing. Closing them while still shipping product is another. Here is what good looks like.</p>
+      <p>Strong teams do not run compliance as a side project. They build the standard into how the work already runs, so the process you follow every day is the one an auditor would see. No special behavior for audit week, because there is nothing to hide.</p>
+      <p>We get teams there by working on the floor with your people, not by handing over a binder. The result holds up when you are busy, which is exactly when readiness usually slips.</p>
+      <p>Want to see where you stand? That is a short conversation.</p>
+    </div>
+    <span class="btn">[Book 15 minutes]</span>
+  </div>
+
+  <div class="email b">
+    <div class="email-head"><span class="enum">B4</span><h3>Consult offer (Day 8)</h3></div>
+    <div class="goal">Goal: convert to a consult. Routes to sales on acceptance.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>Bring the boxes you could not check</li><li>15 minutes on your readiness</li><li>We will look at your gaps with you</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>We will tell you what matters most.</li><li>Which gaps an auditor finds first.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>Simple offer. Bring the checklist items you could not confidently check, and take 15 minutes with one of our operators.</p>
+      <p>We will tell you which gaps matter most, which an auditor finds first, and what we would do about them. Straight answers, no pitch. If working together makes sense from there, we can talk about it separately.</p>
+    </div>
+    <span class="btn">[Book 15 minutes]</span>
+    <div class="note"><b>Note:</b> On booking, the contact exits Track B and routes to sales as an MQL.</div>
+  </div>
+
+  <!-- ================= TRACK C ================= -->
+  <div id="track-c" class="track-label"><span>Track C</span> Re-engagement</div>
+  <div class="track-meta">Trigger: a contact went cold or engaged without converting &middot; Goal: bring them back to a capture point. Track C also runs retargeting ads and on-page CTAs, separate from these emails.</div>
+
+  <div class="email c">
+    <div class="email-head"><span class="enum">C1</span><h3>Re-engagement nudge</h3></div>
+    <div class="goal">Goal: a light, value-first nudge to a contact who has gone quiet.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>Still worth a look?</li><li>One thing that might help</li><li>No ask, just this</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>In case the timing is right.</li><li>Something useful, that is all.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>It has been a while, so no hard sell. Just something useful in case the timing is right.</p>
+      <p>Most operations leaders we talk to are wrestling with the same thing: doing more without adding people. This is the clearest piece we have on finding that capacity in the operation you already run.</p>
+      <p>If it helps, good. If your priorities have moved, no problem at all.</p>
+    </div>
+    <span class="btn">[Read it]</span>
+  </div>
+
+  <div class="email c">
+    <div class="email-head"><span class="enum">C2</span><h3>Last touch</h3></div>
+    <div class="goal">Goal: a respectful final nudge with an easy way back in.</div>
+    <span class="flabel">Subject options</span>
+    <ol class="opts"><li>Should we ease off?</li><li>Last one for now</li><li>Keeping your inbox clean</li></ol>
+    <span class="flabel">Preview options</span>
+    <ol class="opts"><li>Your call, either way.</li><li>We will slow down if now is not the time.</li></ol>
+    <span class="flabel">Body</span>
+    <div class="body-copy">
+      <p>We do not want to clutter your inbox, so this is the last nudge for now.</p>
+      <p>If running a tighter, more capable operation is on your plate this year, the easiest first step is 15 minutes with one of our operators. Bring your hardest problem and we will give you a straight read, no pitch.</p>
+      <p>If now is not the time, do nothing. We will keep the useful stuff coming at a slower pace, and the door is open whenever you want back in.</p>
+    </div>
+    <span class="btn">[Book 15 minutes]</span>
+    <div class="note"><b>Note:</b> If the contact clicks or books, they re-enter the appropriate track. Otherwise move them to a low-frequency list.</div>
+  </div>
+
+</div>
+
+<div class="footer-bar">
+  <div class="footer-inner">
+    <div class="footer-wordmark"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1520 346" fill="none"><path d="M67.2911 5.50427L153.389 200.364C156.561 207.564 166.839 207.505 169.951 200.306L253.818 5.56281C255.227 2.22637 258.516 0.119141 262.099 0.119141H311.726C318.245 0.119141 322.591 6.79204 320.007 12.704L176.588 340.495C175.178 343.773 171.889 345.88 168.307 345.88H157.031C153.448 345.88 150.277 343.773 148.808 340.554L0.808551 12.821C-1.89304 6.85055 2.51172 0.119141 9.03077 0.119141H59.0101C62.5926 0.119141 65.8228 2.22636 67.2911 5.50427Z" fill="#ECE8E2"/><path d="M449.203 9.12949V332.53C449.203 337.506 445.151 341.545 440.159 341.545H392.059C387.067 341.545 383.014 337.506 383.014 332.53V9.12949C383.014 4.15409 387.067 0.115234 392.059 0.115234H440.159C445.151 0.115234 449.203 4.15409 449.203 9.12949Z" fill="#ECE8E2"/><path d="M589.735 3.27794L774.617 219.737C780.079 226.117 790.533 222.254 790.533 213.884V9.07281C790.533 4.09741 794.585 0.0585466 799.577 0.0585466H846.209C851.201 0.0585466 855.254 4.09741 855.254 9.07281V332.474C855.254 337.449 851.201 341.488 846.209 341.488H802.573C799.93 341.488 797.404 340.317 795.643 338.269L609.527 118.122C604.124 111.683 593.552 115.546 593.552 123.917V332.415C593.552 337.391 589.5 341.43 584.508 341.43H537.876C532.884 341.43 528.832 337.391 528.832 332.415V9.01426C528.832 4.03886 532.884 0 537.876 0H582.805C585.447 0 587.973 1.17069 589.676 3.16085L589.735 3.27794Z" fill="#ECE8E2"/><path d="M990.851 3.80473L1063.74 104.191C1067.32 109.166 1074.72 109.166 1078.36 104.191L1152.18 3.74618C1153.89 1.40482 1156.59 0.0585466 1159.47 0.0585466H1215.55C1223.01 0.0585466 1227.24 8.54599 1222.78 14.4579L1105.96 169.925C1104.79 171.505 1104.14 173.378 1104.14 175.31V332.415C1104.14 337.391 1100.09 341.43 1095.1 341.43H1047C1042.01 341.43 1037.95 337.391 1037.95 332.415V174.841C1037.95 172.91 1037.31 170.978 1036.13 169.398L918.672 14.4579C914.15 8.54599 918.437 0 925.896 0H983.569C986.447 0 989.207 1.40482 990.91 3.74618L990.851 3.80473Z" fill="#ECE8E2"/><path d="M1353.74 9.12949V280.962C1353.74 285.937 1357.79 289.976 1362.78 289.976H1510.96C1515.95 289.976 1520 294.015 1520 298.99V332.53C1520 337.506 1515.95 341.545 1510.96 341.545H1296.59C1291.6 341.545 1287.55 337.506 1287.55 332.53V9.12949C1287.55 4.15409 1291.6 0.115234 1296.59 0.115234H1344.69C1349.68 0.115234 1353.74 4.15409 1353.74 9.12949Z" fill="#ECE8E2"/></svg></div>
+    <div class="footer-meta">JUNE 15, 2026 &middot; CBS NURTURE EMAIL COPY</div>
+  </div>
+</div>
+
+</body>
+</html>
