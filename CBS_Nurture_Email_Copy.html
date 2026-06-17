@@ -94,7 +94,7 @@ body::before{content:''; position:fixed; top:-20%; right:-15%; width:70vw; heigh
   <div class="hero-meta">JUNE 15, 2026 &nbsp;&middot;&nbsp; PREPARED BY JOSH AGEE, VINYL MARKETING</div>
 </div>
 
-<div class="container">
+<div class="container" data-comment-root>
 
   <div class="usage">
     <h4>Before sending</h4>
@@ -321,6 +321,372 @@ body::before{content:''; position:fixed; top:-20%; right:-15%; width:70vw; heigh
     <div class="footer-meta">JUNE 15, 2026 &middot; CBS NURTURE EMAIL COPY</div>
   </div>
 </div>
+
+<!-- ============================================================= -->
+<!-- CBS COMMENTING LAYER  (highlight-to-comment, Supabase-backed) -->
+<!-- Config + setup: see _comments_setup.md in this folder.        -->
+<!-- ============================================================= -->
+<style>
+  #cbs-cmt-app{font-family:'DM Sans',sans-serif;}
+  mark.cbs-cmt-hl{background:rgba(255,186,123,0.55); border-bottom:2px solid var(--orange);
+    border-radius:2px; cursor:pointer; padding:0 1px; transition:background .15s;}
+  mark.cbs-cmt-hl:hover, mark.cbs-cmt-hl.focus{background:rgba(220,128,68,0.55);}
+  mark.cbs-cmt-hl.resolved{background:rgba(128,198,198,0.30); border-bottom-color:var(--teal-light);}
+
+  #cbs-cmt-fab{position:fixed; right:22px; bottom:22px; z-index:9000;
+    font-family:'JetBrains Mono',monospace; font-size:13px; letter-spacing:.5px;
+    background:var(--teal); color:var(--cream); border:none; border-radius:999px;
+    padding:12px 18px; cursor:pointer; box-shadow:0 4px 18px rgba(0,0,0,.18);}
+  #cbs-cmt-fab:hover{background:var(--teal-deep);}
+  #cbs-cmt-fab .ct{background:var(--orange); color:#fff; border-radius:999px; padding:1px 8px; margin-left:8px; font-weight:500;}
+
+  #cbs-cmt-panel{position:fixed; top:0; right:0; width:380px; max-width:92vw; height:100vh;
+    background:var(--white); box-shadow:-6px 0 28px rgba(0,0,0,.16); z-index:9100;
+    transform:translateX(105%); transition:transform .26s ease; display:flex; flex-direction:column;}
+  #cbs-cmt-panel.open{transform:translateX(0);}
+  .cbs-cmt-hd{background:var(--teal); color:var(--cream); padding:18px 20px; display:flex; align-items:center; justify-content:space-between;}
+  .cbs-cmt-hd h3{font-size:16px; font-weight:600; margin:0;}
+  .cbs-cmt-hd .x{background:none; border:none; color:var(--cream); font-size:22px; cursor:pointer; line-height:1;}
+  .cbs-cmt-hint{font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.3px; color:var(--teal); opacity:.8; padding:10px 20px; border-bottom:1px solid #eee;}
+  #cbs-cmt-list{flex:1; overflow-y:auto; padding:14px 16px 30px;}
+  .cbs-cmt-empty{color:#999; font-size:14px; text-align:center; padding:40px 16px;}
+
+  .cbs-cmt-card{border:1px solid #e7e3dd; border-radius:12px; padding:13px 14px; margin-bottom:12px; background:#fcfbf9;}
+  .cbs-cmt-card.focus{border-color:var(--orange); box-shadow:0 0 0 2px rgba(220,128,68,.18);}
+  .cbs-cmt-card.resolved{opacity:.6;}
+  .cbs-cmt-quote{font-size:13px; color:var(--teal-deep); background:rgba(255,186,123,.22);
+    border-left:3px solid var(--peach); border-radius:0 6px 6px 0; padding:6px 9px; margin-bottom:9px; font-style:italic;}
+  .cbs-cmt-quote.orphan{background:#f3f0eb; border-left-color:#ccc; color:#999;}
+  .cbs-cmt-msg{font-size:14.5px; line-height:1.5; margin-bottom:6px;}
+  .cbs-cmt-meta{font-family:'JetBrains Mono',monospace; font-size:11px; color:#999; margin-bottom:4px;}
+  .cbs-cmt-meta b{color:var(--teal); font-weight:500;}
+  .cbs-cmt-reply{font-size:14px; line-height:1.45; margin:7px 0 0 12px; padding-left:10px; border-left:2px solid #e7e3dd;}
+  .cbs-cmt-actions{display:flex; gap:14px; margin-top:9px;}
+  .cbs-cmt-actions button{background:none; border:none; font-family:'JetBrains Mono',monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:.5px; color:var(--teal); cursor:pointer; padding:0;}
+  .cbs-cmt-actions button:hover{color:var(--orange);}
+
+  .cbs-cmt-form textarea, #cbs-cmt-compose textarea{width:100%; border:1px solid #ddd; border-radius:8px;
+    padding:8px 10px; font-family:'DM Sans',sans-serif; font-size:14px; resize:vertical; min-height:54px;}
+  .cbs-cmt-form input, #cbs-cmt-compose input{width:100%; border:1px solid #ddd; border-radius:8px;
+    padding:7px 10px; font-family:'DM Sans',sans-serif; font-size:14px; margin-bottom:7px;}
+  .cbs-cmt-form .row, #cbs-cmt-compose .row{display:flex; gap:8px; margin-top:8px;}
+  .cbs-cmt-btn{font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.4px; border:none;
+    border-radius:8px; padding:8px 14px; cursor:pointer;}
+  .cbs-cmt-btn.primary{background:var(--teal); color:var(--cream);} .cbs-cmt-btn.primary:hover{background:var(--teal-deep);}
+  .cbs-cmt-btn.ghost{background:rgba(0,103,120,.08); color:var(--teal-deep);}
+
+  #cbs-cmt-compose{display:none; padding:14px 16px; border-bottom:1px solid #eee; background:#fff;}
+  #cbs-cmt-compose.show{display:block;}
+
+  #cbs-cmt-selbtn{position:absolute; z-index:9200; display:none; font-family:'JetBrains Mono',monospace;
+    font-size:12px; letter-spacing:.4px; background:var(--teal-deep); color:var(--cream); border:none;
+    border-radius:8px; padding:7px 13px; cursor:pointer; box-shadow:0 3px 12px rgba(0,0,0,.22);}
+  #cbs-cmt-selbtn.show{display:inline-block;}
+
+  #cbs-cmt-banner{position:fixed; left:0; right:0; bottom:0; z-index:9050; background:var(--maroon);
+    color:#fff; font-size:13px; text-align:center; padding:9px 16px; display:none;}
+  #cbs-cmt-banner.show{display:block;}
+  @media (max-width:600px){ #cbs-cmt-panel{width:100vw;} }
+</style>
+
+<div id="cbs-cmt-app">
+  <button id="cbs-cmt-fab">Comments<span class="ct" id="cbs-cmt-count">0</span></button>
+  <button id="cbs-cmt-selbtn">+ Comment</button>
+  <aside id="cbs-cmt-panel" aria-label="Comments">
+    <div class="cbs-cmt-hd">
+      <h3>Comments</h3>
+      <button class="x" id="cbs-cmt-close" title="Close">&times;</button>
+    </div>
+    <div class="cbs-cmt-hint">Select any text in the doc, then click "+ Comment".</div>
+    <div id="cbs-cmt-compose">
+      <div class="cbs-cmt-quote" id="cbs-cmt-compose-quote"></div>
+      <input id="cbs-cmt-name" placeholder="Your name" autocomplete="name">
+      <textarea id="cbs-cmt-text" placeholder="Add a comment or suggested edit..."></textarea>
+      <div class="row">
+        <button class="cbs-cmt-btn primary" id="cbs-cmt-post">Post</button>
+        <button class="cbs-cmt-btn ghost" id="cbs-cmt-cancel">Cancel</button>
+      </div>
+    </div>
+    <div id="cbs-cmt-list"><div class="cbs-cmt-empty">No comments yet.</div></div>
+  </aside>
+  <div id="cbs-cmt-banner"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  // ---------- CONFIG: paste your Supabase project values here ----------
+  const CBS_COMMENTS_CONFIG = {
+    SUPABASE_URL:      "https://bsjgyynqtrgbakqzhyfq.supabase.co",
+    SUPABASE_ANON_KEY: "sb_publishable_XPMClOrQXP1ka-O0wnWFRw_-tYhhaZi",
+    DOC_ID:            "cbs-nurture-email-copy"   // unique per document
+  };
+  // ---------------------------------------------------------------------
+
+  const cfg = CBS_COMMENTS_CONFIG;
+  const configured = cfg.SUPABASE_URL && !cfg.SUPABASE_URL.includes("YOUR_") &&
+                     cfg.SUPABASE_ANON_KEY && !cfg.SUPABASE_ANON_KEY.includes("YOUR_");
+  let sb = null;
+  if (configured && window.supabase) {
+    sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+  }
+
+  const $ = s => document.querySelector(s);
+  const root = $("[data-comment-root]");
+  const panel = $("#cbs-cmt-panel"), list = $("#cbs-cmt-list"), fab = $("#cbs-cmt-fab"),
+        selbtn = $("#cbs-cmt-selbtn"), banner = $("#cbs-cmt-banner"),
+        compose = $("#cbs-cmt-compose"), composeQuote = $("#cbs-cmt-compose-quote"),
+        nameInput = $("#cbs-cmt-name"), textInput = $("#cbs-cmt-text");
+
+  let pending = null;        // {start,end,quote,prefix,suffix}
+  let cache = [];            // all comments
+  const authorKey = "cbs_cmt_author";
+  if (localStorage.getItem(authorKey)) nameInput.value = localStorage.getItem(authorKey);
+
+  // ---------- storage ----------
+  const lsKey = "cbs_cmt_" + cfg.DOC_ID;
+  async function fetchComments(){
+    if (sb){
+      const {data,error} = await sb.from("comments").select("*")
+        .eq("doc_id", cfg.DOC_ID).order("created_at",{ascending:true});
+      if (error){ console.error(error); return []; }
+      return data || [];
+    }
+    return JSON.parse(localStorage.getItem(lsKey) || "[]");
+  }
+  async function insertComment(obj){
+    if (sb){
+      const {data,error} = await sb.from("comments").insert(obj).select().single();
+      if (error) throw error; return data;
+    }
+    const all = JSON.parse(localStorage.getItem(lsKey) || "[]");
+    obj.id = "loc_" + Date.now() + Math.random().toString(36).slice(2,7);
+    obj.created_at = new Date().toISOString();
+    all.push(obj); localStorage.setItem(lsKey, JSON.stringify(all)); return obj;
+  }
+  async function updateComment(id, patch){
+    if (sb){
+      const {error} = await sb.from("comments").update(patch).eq("id", id);
+      if (error) throw error; return;
+    }
+    const all = JSON.parse(localStorage.getItem(lsKey) || "[]");
+    const c = all.find(x => x.id === id); if (c) Object.assign(c, patch);
+    localStorage.setItem(lsKey, JSON.stringify(all));
+  }
+
+  // ---------- text-offset helpers ----------
+  function textNodes(){
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(n){
+        if (!n.nodeValue) return NodeFilter.FILTER_REJECT;
+        if (n.parentElement && n.parentElement.closest("#cbs-cmt-app")) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const out = []; let n; while ((n = w.nextNode())) out.push(n); return out;
+  }
+  function fullText(){ return textNodes().map(n => n.nodeValue).join(""); }
+
+  function selectionOffsets(){
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return null;
+    const r = sel.getRangeAt(0);
+    if (!root.contains(r.commonAncestorContainer)) return null;
+    if (r.startContainer.nodeType !== 3 || r.endContainer.nodeType !== 3) return null;
+    let pos = 0, start = null, end = null;
+    for (const n of textNodes()){
+      if (n === r.startContainer) start = pos + r.startOffset;
+      if (n === r.endContainer)   end   = pos + r.endOffset;
+      pos += n.nodeValue.length;
+    }
+    if (start == null || end == null || start >= end) return null;
+    const ft = fullText();
+    return {
+      start, end,
+      quote:  ft.slice(start, end),
+      prefix: ft.slice(Math.max(0, start - 40), start),
+      suffix: ft.slice(end, end + 40)
+    };
+  }
+
+  function reanchor(c, ft){
+    if (ft.slice(c.start, c.end) === c.quote) return {start:c.start, end:c.end};
+    if (!c.quote) return null;
+    let idx = -1, best = -1, bestScore = -1;
+    while ((idx = ft.indexOf(c.quote, idx + 1)) !== -1){
+      const pre = ft.slice(Math.max(0, idx - (c.prefix||"").length), idx);
+      const suf = ft.slice(idx + c.quote.length, idx + c.quote.length + (c.suffix||"").length);
+      let score = 0;
+      const P = c.prefix || "", S = c.suffix || "";
+      for (let k=1; k<=Math.min(pre.length, P.length); k++){ if (pre[pre.length-k]===P[P.length-k]) score++; else break; }
+      for (let k=0; k<Math.min(suf.length, S.length); k++){ if (suf[k]===S[k]) score++; else break; }
+      if (score > bestScore){ bestScore = score; best = idx; }
+    }
+    return best >= 0 ? {start:best, end:best + c.quote.length} : null;
+  }
+
+  function clearHighlights(){
+    document.querySelectorAll("mark.cbs-cmt-hl").forEach(m => {
+      const p = m.parentNode; while (m.firstChild) p.insertBefore(m.firstChild, m);
+      p.removeChild(m); p.normalize();
+    });
+  }
+  function wrapRange(start, end, id, resolved){
+    let pos = 0; const segs = [];
+    for (const n of textNodes()){
+      const ns = pos, ne = pos + n.nodeValue.length;
+      const s = Math.max(start, ns), e = Math.min(end, ne);
+      if (s < e) segs.push({node:n, from:s-ns, to:e-ns});
+      pos = ne;
+    }
+    for (let i = segs.length - 1; i >= 0; i--){
+      let {node, from, to} = segs[i];
+      if (to < node.nodeValue.length) node.splitText(to);
+      let target = (from > 0) ? node.splitText(from) : node;
+      const mark = document.createElement("mark");
+      mark.className = "cbs-cmt-hl" + (resolved ? " resolved" : "");
+      mark.dataset.cid = id;
+      target.parentNode.insertBefore(mark, target); mark.appendChild(target);
+      mark.addEventListener("click", () => focusComment(id));
+    }
+  }
+
+  // ---------- rendering ----------
+  function esc(s){ return (s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+  function when(ts){ try { return new Date(ts).toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}); } catch(e){ return ""; } }
+
+  function render(){
+    clearHighlights();
+    const roots   = cache.filter(c => !c.thread_id);
+    const replies = cache.filter(c => c.thread_id);
+    const ft = fullText();
+    const open = roots.filter(c => !c.resolved).length;
+    $("#cbs-cmt-count").textContent = open;
+
+    list.innerHTML = "";
+    if (!roots.length){ list.innerHTML = '<div class="cbs-cmt-empty">No comments yet.</div>'; return; }
+
+    roots.forEach(c => {
+      const anc = reanchor(c, ft);
+      if (anc && !c.resolved) wrapRange(anc.start, anc.end, c.id, false);
+      else if (anc && c.resolved) wrapRange(anc.start, anc.end, c.id, true);
+
+      const card = document.createElement("div");
+      card.className = "cbs-cmt-card" + (c.resolved ? " resolved" : "");
+      card.dataset.cid = c.id;
+      const kids = replies.filter(r => r.thread_id === c.id);
+      card.innerHTML =
+        '<div class="cbs-cmt-quote' + (anc ? "" : " orphan") + '">' +
+          (anc ? esc(c.quote) : "(text changed - comment unanchored)") + '</div>' +
+        '<div class="cbs-cmt-meta"><b>' + esc(c.author||"Anonymous") + '</b> &middot; ' + when(c.created_at) + '</div>' +
+        '<div class="cbs-cmt-msg">' + esc(c.body) + '</div>' +
+        kids.map(r => '<div class="cbs-cmt-reply"><div class="cbs-cmt-meta"><b>' + esc(r.author||"Anonymous") +
+            '</b> &middot; ' + when(r.created_at) + '</div>' + esc(r.body) + '</div>').join("") +
+        '<div class="cbs-cmt-actions">' +
+          '<button data-act="reply">Reply</button>' +
+          '<button data-act="resolve">' + (c.resolved ? "Reopen" : "Resolve") + '</button>' +
+        '</div>' +
+        '<div class="cbs-cmt-replybox" style="display:none;margin-top:8px;">' +
+          '<textarea placeholder="Reply..."></textarea>' +
+          '<div class="row"><button class="cbs-cmt-btn primary" data-act="sendreply">Reply</button></div>' +
+        '</div>';
+
+      card.querySelector('[data-act="resolve"]').onclick = async () => {
+        await updateComment(c.id, {resolved: !c.resolved}); await reload();
+      };
+      const rbox = card.querySelector(".cbs-cmt-replybox");
+      card.querySelector('[data-act="reply"]').onclick = () => {
+        rbox.style.display = rbox.style.display === "none" ? "block" : "none";
+        if (rbox.style.display === "block") rbox.querySelector("textarea").focus();
+      };
+      card.querySelector('[data-act="sendreply"]').onclick = async () => {
+        const t = rbox.querySelector("textarea").value.trim(); if (!t) return;
+        const who = (nameInput.value || "").trim() || "Anonymous";
+        localStorage.setItem(authorKey, who);
+        await insertComment({doc_id: cfg.DOC_ID, thread_id: c.id, author: who, body: t,
+          quote: null, prefix: null, suffix: null, start_off: null, end_off: null, resolved: false});
+        await reload();
+      };
+      card.querySelector(".cbs-cmt-quote").onclick = () => scrollToHighlight(c.id);
+      list.appendChild(card);
+    });
+  }
+
+  function scrollToHighlight(id){
+    const m = document.querySelector('mark.cbs-cmt-hl[data-cid="'+id+'"]');
+    if (m){ m.scrollIntoView({behavior:"smooth", block:"center"}); m.classList.add("focus"); setTimeout(()=>m.classList.remove("focus"),1400); }
+  }
+  function focusComment(id){
+    openPanel();
+    document.querySelectorAll(".cbs-cmt-card").forEach(c => c.classList.remove("focus"));
+    const card = document.querySelector('.cbs-cmt-card[data-cid="'+id+'"]');
+    if (card){ card.classList.add("focus"); card.scrollIntoView({behavior:"smooth", block:"center"}); }
+  }
+
+  // ---------- panel + compose ----------
+  function openPanel(){ panel.classList.add("open"); }
+  function closePanel(){ panel.classList.remove("open"); compose.classList.remove("show"); }
+  fab.onclick = () => panel.classList.toggle("open");
+  $("#cbs-cmt-close").onclick = closePanel;
+
+  document.addEventListener("mouseup", positionSelBtn);
+  document.addEventListener("touchend", positionSelBtn);
+  function positionSelBtn(){
+    setTimeout(() => {
+      const o = selectionOffsets();
+      if (!o){ selbtn.classList.remove("show"); return; }
+      const r = window.getSelection().getRangeAt(0).getBoundingClientRect();
+      selbtn.style.top  = (window.scrollY + r.bottom + 6) + "px";
+      selbtn.style.left = (window.scrollX + r.left) + "px";
+      selbtn.classList.add("show");
+      pending = o;
+    }, 10);
+  }
+  selbtn.onclick = () => {
+    if (!pending) return;
+    selbtn.classList.remove("show");
+    composeQuote.textContent = pending.quote;
+    compose.classList.add("show");
+    openPanel(); textInput.value = ""; textInput.focus();
+  };
+  $("#cbs-cmt-cancel").onclick = () => { compose.classList.remove("show"); pending = null; };
+  $("#cbs-cmt-post").onclick = async () => {
+    const body = textInput.value.trim(); if (!body || !pending) return;
+    const who = (nameInput.value || "").trim() || "Anonymous";
+    localStorage.setItem(authorKey, who);
+    await insertComment({
+      doc_id: cfg.DOC_ID, thread_id: null, author: who, body,
+      quote: pending.quote, prefix: pending.prefix, suffix: pending.suffix,
+      start_off: pending.start, end_off: pending.end, resolved: false
+    });
+    compose.classList.remove("show"); pending = null;
+    window.getSelection().removeAllRanges();
+    await reload();
+  };
+
+  // ---------- load + realtime ----------
+  async function reload(){
+    cache = (await fetchComments()).map(c => ({...c, start:c.start_off, end:c.end_off}));
+    render();
+  }
+  async function init(){
+    if (!configured){
+      banner.innerHTML = "Comments are saving to THIS browser only. Add your Supabase keys in the config block to share them. See _comments_setup.md.";
+      banner.classList.add("show");
+    }
+    await reload();
+    if (sb){
+      sb.channel("cbs-comments-" + cfg.DOC_ID)
+        .on("postgres_changes", {event:"*", schema:"public", table:"comments", filter:"doc_id=eq."+cfg.DOC_ID}, reload)
+        .subscribe();
+      setInterval(reload, 30000); // safety poll
+    }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+</script>
 
 </body>
 </html>
