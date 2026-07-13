@@ -45,6 +45,16 @@ body::before{content:''; position:fixed; top:-20%; right:-15%; width:70vw; heigh
   color:var(--teal-deep); text-decoration:none; padding:6px 14px; border-radius:8px; background:rgba(0,103,120,0.06); transition:.2s;}
 .quick-nav a:hover{background:var(--teal); color:var(--cream);}
 
+.doc-status{position:relative; z-index:1; margin-top:26px; display:inline-flex; align-items:center; gap:10px;}
+.ds-label{font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--teal); opacity:.7;}
+.doc-status select{font-family:'JetBrains Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:1px;
+  padding:8px 14px; border-radius:999px; border:1.5px solid var(--teal-bright); background:transparent;
+  color:var(--teal-deep); cursor:pointer;}
+.doc-status select.st-revisions_required{border-color:var(--maroon); color:var(--maroon);}
+.doc-status select.st-revisions_made{border-color:var(--orange); color:var(--orange);}
+.doc-status select.st-approved{background:var(--teal); border-color:var(--teal); color:var(--cream);}
+.ds-meta{font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--teal); opacity:.6;}
+
 .track-label{font-family:'JetBrains Mono',monospace; font-weight:300; font-size:15px; text-transform:uppercase;
   color:var(--teal-deep); margin-top:64px; margin-bottom:6px; display:inline-block; border-bottom:2px solid var(--peach); padding-bottom:4px;}
 .track-label span{color:var(--peach);}
@@ -92,6 +102,16 @@ body::before{content:''; position:fixed; top:-20%; right:-15%; width:70vw; heigh
   <h1 class="hero-title">Email copy, all three tracks</h1>
   <p class="hero-sub">Ready-to-load drafts for HubSpot. Subject options, preview options, body, and button for every email.</p>
   <div class="hero-meta">PREPARED BY JOSH AGEE, VINYL MARKETING</div>
+  <div class="doc-status">
+    <span class="ds-label">Status</span>
+    <select id="ds-select" disabled>
+      <option value="ready_for_review">Ready for review</option>
+      <option value="revisions_required">Revisions required</option>
+      <option value="revisions_made">Revisions made</option>
+      <option value="approved">Approved</option>
+    </select>
+    <span class="ds-meta" id="ds-meta"></span>
+  </div>
 </div>
 
 <div class="container" data-comment-root>
@@ -689,6 +709,35 @@ body::before{content:''; position:fixed; top:-20%; right:-15%; width:70vw; heigh
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
+})();
+</script>
+
+<script>
+(function(){
+  const URL_="https://bsjgyynqtrgbakqzhyfq.supabase.co";
+  const KEY_="sb_publishable_XPMClOrQXP1ka-O0wnWFRw_-tYhhaZi";
+  const DOC_ID="cbs-nurture-email-copy";
+  const sel=document.getElementById("ds-select"), meta=document.getElementById("ds-meta");
+  function start(){
+    if(!sel||!window.supabase) return;
+    const sb=window.supabase.createClient(URL_,KEY_);
+    const paint=()=>{ sel.className="st-"+sel.value; };
+    async function load(){
+      const {data}=await sb.from("doc_status").select("*").eq("doc_id",DOC_ID).maybeSingle();
+      if(data){ sel.value=data.status; meta.textContent=data.updated_by?"set by "+data.updated_by:""; }
+      paint(); sel.disabled=false;
+    }
+    sel.addEventListener("change", async ()=>{
+      let who=(localStorage.getItem("cbs_cmt_author")||"").trim();
+      if(!who){ who=(prompt("Your name?")||"Anonymous").trim()||"Anonymous"; localStorage.setItem("cbs_cmt_author",who); }
+      paint();
+      const {error}=await sb.from("doc_status").upsert({doc_id:DOC_ID,status:sel.value,updated_by:who,updated_at:new Date().toISOString()});
+      if(!error) meta.textContent="set by "+who;
+    });
+    sb.channel("cbs-status-"+DOC_ID).on("postgres_changes",{event:"*",schema:"public",table:"doc_status",filter:"doc_id=eq."+DOC_ID},load).subscribe();
+    load();
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",start); else start();
 })();
 </script>
 
